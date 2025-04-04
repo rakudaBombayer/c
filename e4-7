@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main(void)
+{
+
+	int no;
+
+	printf("正の整数を入力せよ  : ");
+	fflush(0);
+	scanf("%d", &no);
+
+
+	int num = 2;
+
+	while (num <= no){
+		printf("%d ", num);
+		num *= 2;
+	}
+
+	return 0;
+
+}
+
