@@ -28,3 +28,37 @@ int main(void)
 	return 0;
 
 }
+
+
+
+/*
+ * Ex0311.c
+ *
+ *  Created on: 2023/09/08
+ *      Author: user
+ */
+#include <stdio.h>
+
+int main(void)
+{
+	int distance, fee;		// 距離と料金
+
+	puts("距離を入力してください。");
+	fflush(0);	scanf("%d",&distance);
+
+	if (distance > 0) {
+		if (distance < 50)			// 50Km未満
+			fee = 300;
+		else if (distance < 100)	// 50Km以上～100Km未満
+			fee = 500;
+		else if (distance < 500)	// 100Km以上～500Km未満
+			fee = 700;
+		else						// 500Km以上
+			fee = 1000;
+		printf("料金は、%d円です。", fee);
+	} else {
+		puts("距離が不正です。");
+	}
+
+	return 0;
+}
