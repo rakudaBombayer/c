@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main(void)
+{
+
+	int a, b, sum = 0;
+
+
+	printf("整数値を入力せよ  : ");
+	fflush(0);
+
+	printf("整数A  : ");
+	fflush(0);
+	scanf("%d", &a);
+
+	printf("整数B  : ");
+	fflush(0);
+	scanf("%d", &b);
+
+
+	int start = a <  b ? a : b;
+	int end = a >  b ? a : b;
+
+	printf("%d以上で%d以下の全整数の和は\n",  start,  end);
+	do {
+		sum = sum + start;
+		start = start + 1;
+
+	} while (start <= end);
+
+
+	printf("%dです。\n", sum);
+	fflush(0);
+
+	return 0;
+
+}
+
