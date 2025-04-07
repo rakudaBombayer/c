@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main(void)
+{
+	int tmp;
+
+	printf("整数を入力せよ : ");
+	fflush(0);
+	scanf("%d", &tmp);
+
+
+	for (int i = 1; i <= tmp; i++) {
+
+			int keta = i % 10;
+
+			printf("%d", keta);
+
+	}
+
+
+	return 0;
+
+}
+
