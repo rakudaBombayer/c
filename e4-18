@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int main(void)
+{
+	int n;
+
+	printf("何個表示しますか？ : ");
+	fflush(0);
+	scanf("%d", &n);
+
+	for (int i = 1; i <= n ; i++){
+			printf("*");
+			if(i % 5 == 0){
+				puts("");
+			}
+	}
+
+	return 0;
+}
+
