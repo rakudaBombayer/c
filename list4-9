@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main(void)
+{
+
+	int num;
+
+	printf("整数は何個 : ");
+	fflush(0);
+	scanf("%d", &num);
+
+	int i = 0;
+	int sum = 0;
+
+	while (i < num){
+		int tmp;
+		printf("No.%d : ", ++i);
+		fflush(0);
+		scanf("%d", &tmp);
+		sum += tmp;
+
+	}
+
+	printf("合計値 : %d\n", sum);
+	fflush(0);
+	printf("平均値 : %.2f\n", (double)sum / num);
+	fflush(0);
+
+	return 0;
+}
+
