@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main(void)
+{
+	int n;
+
+	printf("整数値 : ");
+	fflush(0);
+	scanf("%d", &n);
+
+	for (int i = 1; i <= n ; i++)
+			printf("%dの２乗は%d ", i,i * i);
+	putchar("\n");
+
+	return 0;
+}
+
