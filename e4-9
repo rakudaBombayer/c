@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main(void)
+{
+
+	int no;
+
+	do {
+		printf("正の整数を入力せよ");
+		fflush(0);
+		scanf("%d", &no);
+		if (no <= 0) {
+			puts("正でない数を入力しないでください。");
+		}
+
+	} while(no <= 0);
+
+	while (no > 0){
+		printf("+-");
+		fflush(0);
+		no--;
+	}
+	puts("です。");
+
+
+	return 0;
+}
+
