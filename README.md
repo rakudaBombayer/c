@@ -1,5 +1,7 @@
 # c
 
+C言語の授業のメモです。
+
 
 #include <stdio.h>
 
