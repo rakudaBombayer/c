@@ -1,0 +1,32 @@
+/*
+ * ex5_6.c
+ *
+ *  Created on: 2023/09/11
+ *      Author: kenmuu
+ */
+#include <stdio.h>
+
+#define NUMBER 10		// データ数の上限
+
+int main(void)
+{
+	int a[5];
+	int b[5];
+
+	for (int i = 0; i < 5; i ++){
+		printf("a[%d] : ", i);
+		fflush(0);
+		scanf("%d", &a[i]);
+	}
+
+	for (int i = 0; i < 5; i++)
+		b[i] = a[i];
+
+
+	puts(" a   b");
+	puts("-------");
+	for (int i = 0; i <  5; i++)
+		printf("%4d%4d\n", a[i], b[i]);
+		fflush(0);
+	return 0;
+}
