@@ -6,7 +6,7 @@
  */
 #include <stdio.h>
 
-#define NUMBER 10		// データ数の上限
+
 
 int main(void)
 {
