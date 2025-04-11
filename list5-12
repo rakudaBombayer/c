@@ -1,0 +1,52 @@
+/*
+ * ex5_12.c
+ *
+ *  Created on: 2023/09/12
+ *      Author: kenmuu
+ */
+#include	<stdio.h>
+
+#define STUDENT 4
+#define SUBJECT 3
+#define COUNT 2
+int main(void)
+{
+	int tensu[COUNT][STUDENT][SUBJECT] = {
+		{ {91, 63, 78}, {67, 72, 46}, {89, 34, 53}, {32, 54, 34} },
+		{ {97, 67, 82}, {73, 43, 46}, {97, 56, 21}, {85, 46, 35} }
+	};
+	int sum[STUDENT][SUBJECT];
+
+	// 2回分の点数の合計を求める
+	for (int i = 0; i < STUDENT; i++) {				// ４人分の
+		for (int j = 0; j < SUBJECT; j++) {			// ３科目の
+			sum[i][j] = 0;
+			for (int k = 0; k < COUNT; k++) {		// ２回分を加算
+				sum[i][j] += tensu[k][i][j];
+			}
+		}
+	}
+
+	// 各回の点数を表示
+	for (int k = 0; k < COUNT; k++) {
+		printf("%d回目の点数\n", k + 1);
+		for (int i = 0; i < STUDENT; i++) {
+			for (int j = 0; j < SUBJECT; j++) {
+				printf("%4d", tensu[k][i][j]);
+			}
+			putchar('\n');
+		}
+	}
+
+	// 合計点を表示
+	puts("合計点");
+	for (int i = 0; i < STUDENT; i++) {
+		for (int j = 0; j < SUBJECT; j++) {
+			printf("%4d", sum[i][j]);
+		}
+		putchar('\n');
+	}
+
+	return 0;
+}
+
