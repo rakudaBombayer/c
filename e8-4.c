@@ -8,7 +8,7 @@ void bsort(int a[], int n)
 {
 	for (int i = 0,j = n -1; i < j; i++){
 		for (int m = 0 ; j > m; m++){
-			if (a[m] < a[m +1]){
+			if (a[m] > a[m +1]){
 				int temp = a[m +1]	;
 				a[m + 1] = a[m];
 				a[m] = temp;
