@@ -11,6 +11,15 @@ int gcd_recursive(int a, int b) {
 
 
 
+int gcd (int x, int y)
+{
+	int max = x > y ? x : y;
+	int min = x > y ? y : x;
+
+	return max % min == 0 ? min : gcd(min, max % min);
+
+}
+
 int main(void)
 {
 	int num, rum;
