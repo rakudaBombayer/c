@@ -4,16 +4,19 @@
 
 void del_digit(char s[])
 {
-    int i = 0;
-    while (s[i]) {
-        if (s[i] >= '0' && s[i] <= '9') {
-            s[i] = '\0';
-            putchar(s[i++]);
-        } else {
-            putchar(s[i++]);
-        }
+	int i = 0;
+	while(s[i]){
+		if(s[i] >= '0' && s[i] <= '9'){
+			s[i] = '\0';
+//			putchar(s[i++]);
+			i++;
 
-    }
+		}else{
+			putchar(s[i++]);
+		}
+
+
+	}
     putchar('\n');
 }
 
