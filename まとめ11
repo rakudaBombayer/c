@@ -1,0 +1,51 @@
+#include <ctype.h>
+#include <stdio.h>
+
+#define put_str_ln(s) (put_str(s), putchar('\n')) // puts_str を put_str に修正
+
+void put_str(const char *s)
+{
+	putchar('\"');
+	while(*s)
+		putchar(*s++);
+	putchar('\"');
+}
+
+char *str_cpy_toupper(char *d, const char *s)
+{
+	char *tmp = d;
+
+	while (*d++ = toupper(*s++))
+		;
+
+	return tmp;
+}
+
+int main(void)
+{
+	char s[128], t[128];
+	char a[] = "CIA";
+	char *p = "FBI";
+	char a2[][5] = {"LISP", "C", "Ada"};
+	char *p2[] = {"PAUL", "X", "MAC"};
+
+	printf("文字列s = "); fflush(stdout); scanf("%s", s); // fflush(0) は未定義動作
+
+	printf("大文字に変換して配列tにコピーしました。\n");
+	fflush(stdout);
+	printf("文字列t = %s\n", str_cpy_toupper(t, s));
+	fflush(stdout);
+
+	printf("a = "); fflush(stdout); put_str_ln(a);
+	printf("p = "); fflush(stdout); put_str_ln(p);
+
+	for (int i = 0; i < sizeof(a2) / sizeof(a2[0]); i++){ // seizeof を sizeof に修正
+		printf("a2[%d] = ", i); fflush(stdout); put_str_ln(a2[i]);
+	}
+
+	for (int i = 0; i < sizeof(p2) / sizeof(p2[0]); i++){ // seizeof を sizeof に修正
+		printf("p2[%d] = ", i); fflush(stdout); put_str_ln(p2[i]); // a2 を p2 に修正
+	}
+
+	return 0;
+}
