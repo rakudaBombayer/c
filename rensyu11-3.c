@@ -80,5 +80,11 @@ int main(void) {
         printf("%s %s\n", name[i][0], name[i][1]);
     }
 
+    // ソート後の名前を表示
+    printf("\nソート後:\n");
+    for (int i = size - 1; 0 <= i; i--) {
+        printf("%s %s\n", name[i][0], name[i][1]);
+    }
+
     return 0;
 }
