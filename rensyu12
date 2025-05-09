@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+// スートの強さを定義
+typedef enum {
+    CLUB = 1,   // 一番弱い
+    DIAMOND = 2,
+    HEART = 3,
+    SPADE = 4    // 一番強い
+} Suit;
+
+typedef enum {
+    CARD_1 = 13,
+    CARD_13 = 12,
+    CARD_12 = 11,
+    CARD_11 = 10,
+    CARD_10 = 9,
+    CARD_9 = 8,
+    CARD_8 = 7,
+    CARD_7 = 6,
+    CARD_6 = 5,
+    CARD_5 = 4,
+    CARD_4 = 3,
+    CARD_3 = 2,
+    CARD_2 = 1
+} num;
+
+
+
+
+
+// カード構造体
+typedef struct {
+    Suit suit;   // スート (強さ順)
+    int value;   // 数字 (1-13)
+} Card;
+
+int main() {
+    // カード例
+    Card card1 = {SPADE, CARD_13};  // スペードのK（最強）
+    Card card2 = {HEART, 12};  // ハートのK
+
+    // 比較
+    int stop;
+
+    while(1){
+        if (card1.value > card2.value) {
+            printf("プレイヤー1の勝利\n");
+        } else if(card1.value < card2.value)
+        	printf("プレイヤー12の勝利\n");
+
+
+        if (card1.value == card2.value) {
+            if(card1.suit > card2.suit)
+            	 printf("プレイヤー1の勝利\n");
+            else
+            	printf("プレイヤー2の勝利\n");
+        }
+
+    	printf("もう一度対決しますか？[yes....1/ no....0]");
+    	fflush(0);
+    	scanf("%d", &stop);
+
+//    	1を入力させたら終了
+    	if (stop == 1) break;
+
+    }
+
+
+
+    return 0;
+}
