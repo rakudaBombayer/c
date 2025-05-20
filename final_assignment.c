@@ -5,7 +5,6 @@
 #define MAX_STUDENTS 100  // 最大生徒数
 #define MAX_SUBJECTS 5    // 最大科目数
 #define MAX_EXAMS 10      // 最大試験数
-#define MAX_ERRORS 50     // 最大エラーデータ数
 
 // 生徒情報の構造体
 typedef struct {
@@ -41,7 +40,7 @@ void load_students(const char *filename, Student students[], int *count) {
     fclose(file);
 }
 
-// 試験成績を読み込む関数
+// 試験成績を読み込む関数（エラーデータを識別）
 void load_exam_results(const char *filename, ExamResult results[], int *count, int num_subjects, Student students[], int student_count) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -96,14 +95,27 @@ int compare_results(const void *a, const void *b) {
 
 // エラーデータのみを表示する関数
 void display_error_data(ExamResult results[], int count) {
-    printf("\n－－－－－－－－－－－（エラーデータ）－－－－－－－－－－－－－－－－－\n");
+    int error_exists = 0;
+
+    // **エラーデータがあるかチェック**
     for (int i = 0; i < count; i++) {
         if (results[i].is_error) {
-            printf("　  %6s  %-20s  ???", results[i].id, results[i].name);
-            for (int j = 0; j < MAX_SUBJECTS; j++) {
-                printf("  ???");
+            error_exists = 1;
+            break;
+        }
+    }
+
+    // **エラーデータがある場合のみ表示**
+    if (error_exists) {
+        printf("\n－－－－－－－－－－－（エラーデータ）－－－－－－－－－－－－－－－－－\n");
+        for (int i = 0; i < count; i++) {
+            if (results[i].is_error) {
+                printf("　  %6s  %-20s  ???", results[i].id, results[i].name);
+                for (int j = 0; j < MAX_SUBJECTS; j++) {
+                    printf("  ???");
+                }
+                printf("\n");
             }
-            printf("\n");
         }
     }
 }
@@ -127,7 +139,7 @@ void display_exam_results(ExamResult results[], int count, int num_subjects, con
         }
     }
 
-    // 最後にエラーデータを出力
+    // 最後にエラーデータを出力（エラーがある場合のみ）
     display_error_data(results, count);
 }
 
