@@ -5,6 +5,7 @@
 #define MAX_STUDENTS 100  // 最大生徒数
 #define MAX_SUBJECTS 5    // 最大科目数
 #define MAX_EXAMS 10      // 最大試験数
+#define MAX_ERRORS 50     // 最大エラーデータ数
 
 // 生徒情報の構造体
 typedef struct {
@@ -18,6 +19,7 @@ typedef struct {
     char name[50];         // 氏名
     int scores[MAX_SUBJECTS]; // 各科目の点数
     int total;             // 総合点
+    int is_error;          // エラーフラグ（1ならエラー）
 } ExamResult;
 
 // 生徒情報を読み込む関数
@@ -53,18 +55,32 @@ void load_exam_results(const char *filename, ExamResult results[], int *count, i
     *count = 0;
     while (fscanf(file, "%s", results[*count].id) == 1) {
         results[*count].total = 0;
+        results[*count].is_error = 0;
 
-        for (int i = 0; i < num_subjects; i++) {
-            fscanf(file, "%d", &results[*count].scores[i]);
-            results[*count].total += results[*count].scores[i];
-        }
-
-        // 氏名を検索して設定
+        // **生徒情報に存在しない ID のチェック**
+        int student_found = 0;
         for (int i = 0; i < student_count; i++) {
             if (strcmp(results[*count].id, students[i].id) == 0) {
                 strcpy(results[*count].name, students[i].name);
+                student_found = 1;
                 break;
             }
+        }
+        if (!student_found) {
+            results[*count].is_error = 1;  // **エラーフラグ ON**
+        }
+
+        // **点数の読み込みと異常値チェック**
+        for (int i = 0; i < num_subjects; i++) {
+            if (fscanf(file, "%d", &results[*count].scores[i]) != 1 || results[*count].scores[i] < 0) {
+                results[*count].is_error = 1;  // **不正データを検出**
+            }
+            results[*count].total += results[*count].scores[i];
+        }
+
+        // **異常な総合点のチェック**
+        if (results[*count].total > (num_subjects * 100) || results[*count].total < 0) {
+            results[*count].is_error = 1;
         }
 
         (*count)++;
@@ -78,6 +94,20 @@ int compare_results(const void *a, const void *b) {
     return ((ExamResult *)b)->total - ((ExamResult *)a)->total;
 }
 
+// エラーデータのみを表示する関数
+void display_error_data(ExamResult results[], int count) {
+    printf("\n－－－－－－－－－－－（エラーデータ）－－－－－－－－－－－－－－－－－\n");
+    for (int i = 0; i < count; i++) {
+        if (results[i].is_error) {
+            printf("　  %6s  %-20s  ???", results[i].id, results[i].name);
+            for (int j = 0; j < MAX_SUBJECTS; j++) {
+                printf("  ???");
+            }
+            printf("\n");
+        }
+    }
+}
+
 // 試験成績を表示する関数
 void display_exam_results(ExamResult results[], int count, int num_subjects, const char *title) {
     printf("\n○%s\n", title);
@@ -88,12 +118,17 @@ void display_exam_results(ExamResult results[], int count, int num_subjects, con
     printf("\n");
 
     for (int i = 0; i < count; i++) {
-        printf("　%4d   %-6s  %-20s  %4d", i + 1, results[i].id, results[i].name, results[i].total);
-        for (int j = 0; j < num_subjects; j++) {
-            printf("  %4d", results[i].scores[j]);
+        if (!results[i].is_error) {
+            printf("　%4d   %-6s  %-20s  %4d", i + 1, results[i].id, results[i].name, results[i].total);
+            for (int j = 0; j < num_subjects; j++) {
+                printf("  %4d", results[i].scores[j]);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
+
+    // 最後にエラーデータを出力
+    display_error_data(results, count);
 }
 
 // メイン関数
@@ -110,12 +145,10 @@ int main() {
         "第一回模擬試験成績", "第二回模擬試験成績", "第三回模擬試験成績", "第四回模擬試験成績", "第五回模擬試験成績"
     };
 
-    // 生徒情報をロード
     load_students("student.txt", students, &student_count);
 
     printf("\n※※　模擬試験の成績一覧　※※\n");
 
-    // 各試験の結果をロードして表示
     for (int i = 0; i < 5; i++) {
         load_exam_results(exam_files[i], results, &exam_count, num_subjects[i], students, student_count);
         qsort(results, exam_count, sizeof(ExamResult), compare_results);
