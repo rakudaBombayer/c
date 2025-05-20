@@ -94,8 +94,8 @@ int compare_results(const void *a, const void *b) {
     return ((ExamResult *)b)->total - ((ExamResult *)a)->total;
 }
 
-// エラーデータのみを表示する関数 (ファイル出力用に変更)
-void display_error_data_to_file(FILE *outfile, ExamResult results[], int count) {
+// エラーデータのみを表示する関数（コンソールとファイル出力）
+void display_error_data(FILE *outfile, ExamResult results[], int count) {
     int error_exists = 0;
 
     for (int i = 0; i < count; i++) {
@@ -106,40 +106,51 @@ void display_error_data_to_file(FILE *outfile, ExamResult results[], int count) 
     }
 
     if (error_exists) {
+        printf("\n－－－－－－－－－－－（エラーデータ）－－－－－－－－－－－－－－－－－\n");
         fprintf(outfile, "\n－－－－－－－－－－－（エラーデータ）－－－－－－－－－－－－－－－－－\n");
         for (int i = 0; i < count; i++) {
             if (results[i].is_error) {
+                printf("　  %6s  %-20s  ???", results[i].id, results[i].name);
                 fprintf(outfile, "　  %6s  %-20s  ???", results[i].id, results[i].name);
                 for (int j = 0; j < MAX_SUBJECTS; j++) {
+                    printf("  ???");
                     fprintf(outfile, "  ???");
                 }
+                printf("\n");
                 fprintf(outfile, "\n");
             }
         }
     }
 }
 
-// 試験成績を表示する関数 (ファイル出力用に変更)
-void display_exam_results_to_file(FILE *outfile, ExamResult results[], int count, int num_subjects, const char *title) {
+// 試験成績を表示する関数（コンソールとファイル出力）
+void display_exam_results(FILE *outfile, ExamResult results[], int count, int num_subjects, const char *title) {
+    printf("\n○%s\n", title);
+    printf("　順位 生徒番号　氏　　名　　　　　　総合点");
     fprintf(outfile, "\n○%s\n", title);
     fprintf(outfile, "　順位 生徒番号　氏　　名　　　　　　総合点");
     for (int i = 0; i < num_subjects; i++) {
+        printf(" 科目%d", i+1);
         fprintf(outfile, " 科目%d", i+1);
     }
+    printf("\n");
     fprintf(outfile, "\n");
 
     for (int i = 0; i < count; i++) {
         if (!results[i].is_error) {
+            printf("　%4d   %-6s  %-20s  %4d", i + 1, results[i].id, results[i].name, results[i].total);
             fprintf(outfile, "　%4d   %-6s  %-20s  %4d", i + 1, results[i].id, results[i].name, results[i].total);
             for (int j = 0; j < num_subjects; j++) {
-                fprintf(outfile, "  %4d", results[i].scores[j]); // 修正箇所
+                printf("  %4d", results[i].scores[j]);
+                fprintf(outfile, "  %4d", results[i].scores[j]);
             }
+            printf("\n");
             fprintf(outfile, "\n");
         }
     }
 
-    // 最後にエラーデータを出力（エラーがある場合のみ）
-    display_error_data_to_file(outfile, results, count);
+    // 最後にエラーデータを出力（コンソールとファイル）
+    display_error_data(outfile, results, count);
 }
 
 // メイン関数
@@ -179,10 +190,11 @@ int main() {
     for (int i = 0; i < 5; i++) {
         load_exam_results(exam_files[i], results, &exam_count, num_subjects[i], students, student_count);
         qsort(results, exam_count, sizeof(ExamResult), compare_results);
-        display_exam_results_to_file(outfile, results, exam_count, num_subjects[i], exam_titles[i]);
+        display_exam_results(outfile, results, exam_count, num_subjects[i], exam_titles[i]);
     }
 
     fclose(outfile);
+    
     printf("成績を %s に出力しました。\n", filename);
 
     return 0;
